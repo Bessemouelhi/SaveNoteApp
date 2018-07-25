@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.appdevloop.savenoteapp.R;
-import com.appdevloop.savenoteapp.model.NoteEntity;
+import com.appdevloop.savenoteapp.database.NoteEntity;
 
 import java.util.List;
 

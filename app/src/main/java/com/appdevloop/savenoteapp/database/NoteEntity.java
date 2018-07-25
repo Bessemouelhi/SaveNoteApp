@@ -1,15 +1,22 @@
-package com.appdevloop.savenoteapp.model;
+package com.appdevloop.savenoteapp.database;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
 
 /**
  * Created by AppDevloop on 24/07/2018.
  */
+@Entity(tableName = "notes")
 public class NoteEntity {
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private Date date;
     private String text;
 
+    @Ignore
     public NoteEntity() {
     }
 
@@ -19,6 +26,7 @@ public class NoteEntity {
         this.text = text;
     }
 
+    @Ignore
     public NoteEntity(Date date, String text) {
         this.date = date;
         this.text = text;

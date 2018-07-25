@@ -1,6 +1,6 @@
 package com.appdevloop.savenoteapp.utils;
 
-import com.appdevloop.savenoteapp.model.NoteEntity;
+import com.appdevloop.savenoteapp.database.NoteEntity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
