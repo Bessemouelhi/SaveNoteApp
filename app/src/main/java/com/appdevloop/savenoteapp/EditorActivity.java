@@ -24,7 +24,7 @@ import butterknife.OnClick;
 public class EditorActivity extends AppCompatActivity {
 
     private EditorViewModel mViewModel;
-    private boolean mNewNote;
+    private boolean isNewNote;
 
     @BindView(R.id.et_note_text)
     EditText mEditText;
@@ -56,7 +56,7 @@ public class EditorActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             setTitle("New note");
-            mNewNote = true;
+            isNewNote = true;
         } else {
             setTitle("Edit note");
             int noteId = extras.getInt(Constants.KEY_NOTE_ID);

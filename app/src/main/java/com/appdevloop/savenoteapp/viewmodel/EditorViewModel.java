@@ -4,10 +4,12 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.appdevloop.savenoteapp.database.AppRepository;
 import com.appdevloop.savenoteapp.database.NoteEntity;
 
+import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -36,10 +38,15 @@ public class EditorViewModel extends AndroidViewModel {
     }
 
     public void saveNote(String noteText) {
-        NoteEntity noteEntity = mLiveNote.getValue();
-        if (noteEntity != null) {
-            noteEntity.setText(noteText);
+        NoteEntity liveNote = mLiveNote.getValue();
+        if (liveNote != null) {
+            liveNote.setText(noteText.trim());
+        } else {
+            if (TextUtils.isEmpty(noteText.trim())) {
+                return;
+            }
+            liveNote = new NoteEntity(new Date(), noteText.trim());
         }
-        mRepository.insertNote(noteEntity);
+        mRepository.insertNote(liveNote);
     }
 }

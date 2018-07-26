@@ -19,6 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:fabSize="mini"
         tools:layout_editor_absoluteX="31dp"
         tools:layout_editor_absoluteY="16dp"/>
 
