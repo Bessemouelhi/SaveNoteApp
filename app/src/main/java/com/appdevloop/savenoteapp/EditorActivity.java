@@ -21,11 +21,14 @@ import com.appdevloop.savenoteapp.viewmodel.EditorViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import icepick.Icepick;
+import icepick.State;
 
 public class EditorActivity extends AppCompatActivity {
 
     private EditorViewModel mViewModel;
     private boolean isNewNote;
+    @State boolean isEditing;
 
     @BindView(R.id.et_note_text)
     EditText mEditText;
@@ -38,10 +41,21 @@ public class EditorActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Restore all @State annotation variables in Bundle
+        Icepick.restoreInstanceState(this, savedInstanceState);
+
         initViewModel();
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_check_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        isEditing = true;
+        // Save all @State annotation variables in Bundle
+        Icepick.saveInstanceState(this, outState);
     }
 
     private void initViewModel() {
@@ -49,8 +63,9 @@ public class EditorActivity extends AppCompatActivity {
         mViewModel.mLiveNote.observe(this, new Observer<NoteEntity>() {
             @Override
             public void onChanged(@Nullable NoteEntity noteEntity) {
-                assert noteEntity != null;
-                mEditText.setText(noteEntity.getText());
+                if (noteEntity != null && !isEditing) {
+                    mEditText.setText(noteEntity.getText());
+                }
             }
         });
 
