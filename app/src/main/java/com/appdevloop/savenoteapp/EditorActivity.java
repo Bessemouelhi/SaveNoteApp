@@ -2,9 +2,12 @@ package com.appdevloop.savenoteapp;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,15 +17,27 @@ import android.widget.EditText;
 
 import com.appdevloop.savenoteapp.database.NoteEntity;
 import com.appdevloop.savenoteapp.utils.Constants;
+import com.appdevloop.savenoteapp.utils.StorageUtils;
 import com.appdevloop.savenoteapp.viewmodel.EditorViewModel;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.internal.Utils;
 import icepick.Icepick;
 import icepick.State;
 
 public class EditorActivity extends AppCompatActivity {
+
+    // FILE PURPOSE
+    private static final String FILENAME = "saveNoteApp.txt";
+    private static final String FOLDERNAME = "SaveNoteApp";
+    // PERMISSION PURPOSE
+    private static final int RC_STORAGE_WRITE_PERMS = 100;
+    // Define the authority of the FileProvider
+    private static final String AUTHORITY = "com.appdevloop.savenoteapp.fileprovider";
 
     private EditorViewModel mViewModel;
     private boolean isNewNote;
@@ -118,8 +133,25 @@ public class EditorActivity extends AppCompatActivity {
         finish();
     }
 
+    // 2 - Share the internal file
+    private void shareFile(){
+        if (!mEditText.getText().equals("")) {
+            StorageUtils.setTextInStorage(getFilesDir(), this, FILENAME, FOLDERNAME, this.mEditText.getText().toString());
+            File internalFile = StorageUtils.getFileFromStorage(getFilesDir(), this, FILENAME, FOLDERNAME);
+            Uri contentUri = FileProvider.getUriForFile(getApplicationContext(), AUTHORITY, internalFile);
+
+            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+            sharingIntent.setType("text/*");
+            sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            sharingIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            startActivity(Intent.createChooser(sharingIntent, getString(R.string.trip_book_share)));
+        }
+
+    }
+
     @OnClick(R.id.fab_editor)
     void onFabClick(View view) {
+        shareFile();
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
