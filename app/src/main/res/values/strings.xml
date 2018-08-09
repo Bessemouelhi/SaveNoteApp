@@ -126,8 +126,8 @@
     <string name="todolist_things_todo">Ajouter une chose à faire&#8230;</string>
     <string name="todolist_button_add">Ajouter</string>
     <string-array name="category_array">
-        <item>A visiter</item>
-        <item>Idées</item>
+        <item>To visit</item>
+        <item>Ideas</item>
         <item>Restaurants</item>
     </string-array>
 </resources>

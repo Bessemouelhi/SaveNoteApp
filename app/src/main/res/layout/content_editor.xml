@@ -5,17 +5,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="28dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".EditorActivity"
     tools:showIn="@layout/activity_editor">
 
-    <EditText
-        android:id="@+id/et_note_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/text_margin"
-        android:hint="@string/enter_note"
-        android:inputType="textMultiLine|textCapSentences"/>
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/spinner_editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:padding="8dp"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_background"/>
+
+        <EditText
+            android:id="@+id/et_note_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:hint="@string/enter_note"
+            android:inputType="textMultiLine|textCapSentences"/>
+
+    </LinearLayout>
+
+
 
 </android.support.v4.widget.NestedScrollView>

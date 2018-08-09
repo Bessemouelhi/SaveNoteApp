@@ -13,7 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.appdevloop.savenoteapp.database.NoteEntity;
 import com.appdevloop.savenoteapp.utils.Constants;
@@ -43,6 +45,8 @@ public class EditorActivity extends AppCompatActivity {
     private boolean isNewNote;
     @State boolean isEditing;
 
+    @BindView(R.id.spinner_editor)
+    Spinner mSpinner;
     @BindView(R.id.et_note_text)
     EditText mEditText;
 
@@ -53,6 +57,7 @@ public class EditorActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.configureSpinner();
 
         // Restore all @State annotation variables in Bundle
         Icepick.restoreInstanceState(this, savedInstanceState);
@@ -154,5 +159,11 @@ public class EditorActivity extends AppCompatActivity {
         shareFile();
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+    }
+
+    private void configureSpinner(){
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(adapter);
     }
 }
